@@ -1,11 +1,8 @@
-from flask import Flask, request, send_file
-from flask_cors import CORS
-from utils.utils import unzipAndMerge
 import os
-app = Flask(__name__)
-app.config['JSON_SORT_KEYS'] = False
-CORS(app)
+from flask import Flask, request, send_file
+from utils import unzipAndMerge
 
+app = Flask(__name__)
 
 
 @app.route('/merge', methods=['POST'])
@@ -18,8 +15,6 @@ def merge():
             response = send_file(mergedPdfPath, as_attachment=True)
             os.remove(mergedPdfPath)
             return response
-        else:
-            return {"STATUS": 500, "message": "Failed to merge PDFs"}
     else:
         return {"STATUS": 400, "message": "No zip file provided"}
 
